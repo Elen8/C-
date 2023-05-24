@@ -1,4 +1,3 @@
-
 #ifndef MY_VECTOR
 #define MY_VECTOR
 
@@ -31,7 +30,7 @@ public:
 	my_vector(); //done
 	my_vector(my_vector<T>&); //done
 	my_vector(int, int); //done
-	my_vector(std::initializer_list<T>); //done
+	my_vector(const std::initializer_list<T>&); //done
 	~my_vector(); //done
 
 public:
@@ -41,8 +40,8 @@ public:
 	//element access
 	T& const at(size_t) const; //done
 	T& operator[](int i); //done
-	T& front() const; //done
-	T& back() const; //done
+	T& front(); //done
+	T& back(); //done
 
 	//iterators
 	iterator begin(); //done
