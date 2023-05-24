@@ -13,7 +13,7 @@ vec::my_vector<T>::my_vector()
 }
 
 template<typename T>
-inline vec::my_vector<T>::my_vector(my_vector<T>& new_vec)
+vec::my_vector<T>::my_vector(my_vector<T>& new_vec)
 {
 	v_ptr = new_vec.v_ptr;
 	v_size = new_vec.v_size;
@@ -21,7 +21,7 @@ inline vec::my_vector<T>::my_vector(my_vector<T>& new_vec)
 }
 
 template<typename T>
-inline vec::my_vector<T>::my_vector(int size, int elements)
+vec::my_vector<T>::my_vector(int size, int elements)
 {
 	v_size = size;
 	v_capacity = v_size * 2;
@@ -33,7 +33,7 @@ inline vec::my_vector<T>::my_vector(int size, int elements)
 }
 
 template<typename T>
-inline vec::my_vector<T>::my_vector(std::initializer_list<T> arr)
+vec::my_vector<T>::my_vector(const std::initializer_list<T>& arr)
 {
 	v_size = arr.size();
 	v_capacity = v_size * 2;
@@ -45,7 +45,7 @@ inline vec::my_vector<T>::my_vector(std::initializer_list<T> arr)
 }
 
 template<typename T>
-inline vec::my_vector<T>::~my_vector()
+vec::my_vector<T>::~my_vector()
 {
 }
 
@@ -104,17 +104,17 @@ T& vec::my_vector<T>::operator[](int i)
 }
 
 template<typename T>
-T& vec::my_vector<T>::front() const
+T& vec::my_vector<T>::front()
 {
 	if (this->empty())
 	{
-		return;
+		return nullptr;
 	}
 	return v_ptr[0];
 }
 
 template<typename T>
-T& vec::my_vector<T>::back() const
+T& vec::my_vector<T>::back()
 {
 	if (this->empty())
 	{
@@ -322,33 +322,33 @@ inline vec::my_vector<T>::iterator::iterator(T* new_ptr)
 }
 
 template<typename T>
-typename inline T& vec::my_vector<T>::iterator::operator*() const
+typename T& vec::my_vector<T>::iterator::operator*() const
 {
 	return *I_ptr;
 }
 
 template<typename T>
-typename inline T& vec::my_vector<T>::iterator::operator->() const
+typename T& vec::my_vector<T>::iterator::operator->() const
 {
 	return I_ptr;
 }
 
 template<typename T>
-typename inline vec::my_vector<T>::iterator& vec::my_vector<T>::iterator::operator++()
+typename vec::my_vector<T>::iterator& vec::my_vector<T>::iterator::operator++()
 {
 	I_ptr++;
 	return *this;
 }
 
 template<typename T>
-typename inline vec::my_vector<T>::iterator& vec::my_vector<T>::iterator::operator--()
+typename vec::my_vector<T>::iterator& vec::my_vector<T>::iterator::operator--()
 {
 	I_ptr--;
 	return *this;
 }
 
 template<typename T>
-typename inline T& vec::my_vector<T>::iterator::operator[](std::ptrdiff_t offset)
+typename T& vec::my_vector<T>::iterator::operator[](std::ptrdiff_t offset)
 {
 	return *(I_ptr + offset);
 }
