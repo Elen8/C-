@@ -1,4 +1,4 @@
->Implementations of algorithms and data structures by me
+>Implementations of algorithms, data structures and personal projects.
 >>Data Structures
 >>>Vector
 >>>
