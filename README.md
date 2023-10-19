@@ -28,6 +28,7 @@
 >>Projects
 >>
 >>>My Finance Tracker
+>>>
 >>>Chess Program
 >>
 >>Multithreaded Programming
