@@ -1,28 +1,32 @@
+#include <iostream>
+#include "ThreadSafeQueue.h"
 
-#ifndef THREADSAFEQUEUE_H
-#define THREADSAFEQUEUE_H
+std::mutex mtx;
 
-#include <thread>
-#include <mutex>
-#include <condition_variable>
-#include <queue>
+void producer(ThreadSafeQueue<int>& tsq) {
+    for (int i = 0; i < 5; ++i) {
+        tsq.push(i);
+        mtx.lock();
+        std::cout << "Produced: " << i << std::endl;
+        mtx.unlock();
+    }
+}
 
-// This queue is designed to work for ex. in a server.
-template <class T>
-class ThreadSafeQueue
-{
-public:
-    void push(T const&);
-    // @Brief:  If you try to pop an item and if the queue is empty then
-    //          it will wait until there will be an available item to pop.
-    bool try_pop(T&);
+void consumer(ThreadSafeQueue<int>& tsq) {
+    int data{};
+    while (tsq.try_pop(data)) {
+        mtx.lock();
+        std::cout << "Consumed: " << data << std::endl;
+        mtx.unlock();
+    }
+}
 
-private:
-    std::queue<T> buffer;
-    std::mutex mutex;
-    std::condition_variable cv;
-};
+int main() {
+    ThreadSafeQueue<int> buffer;
+    std::thread ProducerThread(&producer, std::ref(buffer));
+    std::thread ConsumerThread(&consumer, std::ref(buffer));
 
-#include "ThreadSafeQueue.impl.hpp"
-
-#endif // !THREADSAFEQUEUE_H
+    ProducerThread.join();
+    ConsumerThread.join();
+    return 0;
+}
