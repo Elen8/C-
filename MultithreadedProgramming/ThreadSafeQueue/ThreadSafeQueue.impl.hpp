@@ -1,28 +1,20 @@
 
-#ifndef THREADSAFEQUEUE_H
-#define THREADSAFEQUEUE_H
+#include "ThreadSafeQueue.h"
 
-#include <thread>
-#include <mutex>
-#include <condition_variable>
-#include <queue>
+template<class T>
+void ThreadSafeQueue<T>::push(T const& item) {
+    std::lock_guard<std::mutex> lock(mutex);
+    buffer.push(item);
+    cv.notify_one();
+}
 
-// This queue is designed to work for ex. in a server.
-template <class T>
-class ThreadSafeQueue
-{
-public:
-    void push(T const&);
-    // @Brief:  If you try to pop an item and if the queue is empty then
-    //          it will wait until there will be an available item to pop.
-    bool try_pop(T&);
 
-private:
-    std::queue<T> buffer;
-    std::mutex mutex;
-    std::condition_variable cv;
-};
+template<class T>
+bool ThreadSafeQueue<T>::try_pop(T& item) {
+    std::unique_lock<std::mutex> lock(mutex);
+    cv.wait(lock, [this] { return !buffer.empty(); });
 
-#include "ThreadSafeQueue.impl.hpp"
-
-#endif // !THREADSAFEQUEUE_H
+    item = buffer.front();
+    buffer.pop();
+    return true;
+}
