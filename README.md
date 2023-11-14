@@ -30,6 +30,8 @@
 >>>My Finance Tracker
 >>>
 >>>Chess Program
+>>>
+>>>Trading Platform (multithreading)
 >>
 >>Multithreaded Programming
 >>>ThreadSafeQueue
